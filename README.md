@@ -5,7 +5,7 @@
 ```bash
 # Clone the repo.
 
-git clone git@github.com:uqbar-dao/kinode.git
+git clone git@github.com:polwex/kinode.git
 
 # Configure dependency retrieval from GitHub
 mkdir .cargo
@@ -14,16 +14,12 @@ echo "net.git-fetch-with-cli = true" > .cargo/config
 # Get some stuff so we can build Wasm.
 
 cd kinode
-cargo install wasm-tools
-rustup install nightly
-rustup target add wasm32-wasi
-rustup target add wasm32-wasi --toolchain nightly
-cargo install cargo-wasi
+nix develop
 
 # Build the runtime, along with a number of booted-at-startup WASM modules including terminal and key_value
 # OPTIONAL: --release flag
 
-cargo +nightly build --release
+cargo build --release
 ```
 
 ### Boot
@@ -33,7 +29,11 @@ Make sure not to use the same home directory for two nodes at once! You can use 
 
 TODO: document feature flags `--simulation-mode`
 ```bash
-cargo +nightly run --release -- home --rpc wss://eth-sepolia.g.alchemy.com/v2/<your-api-key>
+sh boot.sh <your-api-key>
+```
+or 
+```bash
+cat <your-keyfile> | xargs ./boot
 ```
 
 On boot you will be prompted to navigate to `localhost:8080`. Make sure your ETH wallet is connected to the Sepolia test network. Login should be straightforward, just submit the transactions and follow the flow. If you want to register a new ID you will either need [Sepolia testnet tokens](https://www.infura.io/faucet/sepolia) or an invite code.

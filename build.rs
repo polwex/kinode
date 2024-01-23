@@ -69,7 +69,6 @@ fn build_app(target_path: &str, name: &str, parent_pkg_path: Option<&str>) {
         std::env::set_current_dir(cwd).unwrap();
     } else {
         run_command(Command::new("cargo").args([
-            "+nightly",
             "build",
             "--release",
             "--no-default-features",
