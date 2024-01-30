@@ -20,6 +20,8 @@
         devShells.${system}.default = pkgs.mkShell {
           packages = [
             toolchain
+            pkgs.wasm-tools
+            pkgs.cargo-wasi
             pkgs.clang
             pkgs.llvmPackages.libclang
             pkgs.openssl
@@ -28,9 +30,8 @@
           ];
           shellHook = ''
             export LIBCLANG_PATH="${pkgs.llvmPackages.libclang.lib}/lib";
-            exec fish
-            source $HOME/.config/fish/config.fish
             echo "Welcome to your Rust development environment!"
+            exec fish
           '';
 
         };
